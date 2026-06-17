@@ -134,6 +134,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .mobile-link { padding: 12px 24px; font-size: 0.95rem; color: var(--text-secondary); transition: color var(--dur); }
 .mobile-link:hover { color: var(--text-primary); }
 .mobile-cta { margin: 12px 24px 0; background: var(--red); color: #fff !important; border-radius: var(--radius-sm); text-align: center; padding: 13px 24px; }
+
+
+
+
 /* ═══════════════ HERO BASE ═══════════════ */
 .hero {
   position: relative;
@@ -379,31 +383,195 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin: 0 auto 6px;
 }
 
-/* ═══════════════ RESPONSIVE ═══════════════ */
+/* ═══════════════ MOBILE ═══════════════ */
 @media (max-width: 900px) {
-  .hero-inner {
-    flex-direction: column;
-    text-align: center;
-    gap: 40px;
+
+  /* Hero wrapper */
+  .hero {
+    padding: 72px 0 48px;
   }
 
+  /* Stack vertically, no gap — çdo element menaxhon hapësirën e vet */
+  .hero-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+  }
+
+  /* Shapes OFF */
+  .shape { display: none; }
+
+  /* Scroll indicator OFF */
+  .hero-scroll-indicator { display: none; }
+
+  /* ── BADGE ── */
+  .hero-badge {
+    justify-content: center;
+    gap: 8px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* ── HEADLINE ── */
+  .hero-headline {
+    font-size: clamp(1.9rem, 8.5vw, 2.4rem);
+    line-height: 1.07;
+    letter-spacing: -0.042em;
+    margin-bottom: 18px;
+    padding: 0;
+  }
+
+  /* ── H2 SPECIAL ── */
+  .hero-subheadline-highlight,
+  .hero-subheadline-special {
+    font-size: clamp(0.9rem, 3.6vw, 1.05rem);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: #111;
+    text-align: center;
+    margin-bottom: 0;
+    padding: 0 8px;
+  }
+
+  /* Red accent line — centered */
+  .hero-subheadline-highlight::after,
+  .hero-subheadline-special::after {
+    width: 32px;
+    height: 2.5px;
+    margin: 10px auto 22px;
+    border-radius: 2px;
+  }
+
+  /* ── BODY COPY ── */
   .hero-subheadline {
-    margin-left: auto;
-    margin-right: auto;
+    font-size: clamp(0.88rem, 3.5vw, 1rem);
+    line-height: 1.7;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 100%;
+    padding: 0;
+    margin-bottom: 28px;
+  }
+
+  /* ── CTA BUTTON ── */
+  .hero-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  .hero-actions .btn-primary {
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+    padding: 15px 22px;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    border-radius: 13px;
+    gap: 9px;
+  }
+
+  /* ── VISUAL / IMAGE ── */
+  .hero-visual {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin-top: 0;
   }
 
   .hero-devices-img {
-    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 18px;
+    display: block;
+    margin: 0 auto 18px;
   }
 
+  /* ── QUOTE CARD ── */
   .hero-quote {
-    top: 10px;
-    right: 10px;
-    max-width: 180px;
-    font-size: 0.78rem;
+    position: static;
+    transform: none;
+
+    width: 100%;
+    max-width: 100%;
+    padding: 15px 16px;
+    margin: 0;
+
+    background: #F9F9F9;
+    border-radius: 0;
+    border-left: 2.5px solid rgba(213, 0, 25, 0.85);
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #1a1a1a;
+  }
+
+  .hero-quote-tag {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgba(213, 0, 25, 0.8);
+    margin-bottom: 5px;
   }
 }
 
+/* ── EXTRA SMALL — iPhone SE, Galaxy A ── */
+@media (max-width: 390px) {
+
+  .hero {
+    padding: 60px 0 40px;
+  }
+
+  .hero-headline {
+    font-size: 1.8rem;
+    letter-spacing: -0.038em;
+  }
+
+  .hero-subheadline-highlight,
+  .hero-subheadline-special {
+    font-size: 0.88rem;
+  }
+
+  .hero-subheadline {
+    font-size: 0.85rem;
+  }
+
+  .hero-actions .btn-primary {
+    font-size: 13px;
+    padding: 14px 18px;
+  }
+
+  .hero-badge {
+    font-size: 11px;
+    gap: 6px;
+  }
+}
 .clients-track {
   display: flex;
   overflow: hidden;
