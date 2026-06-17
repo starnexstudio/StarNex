@@ -137,7 +137,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ═══════════════ HERO BASE ═══════════════ */
 .hero {
   position: relative;
-  padding: 150px 0 100px;
+  padding: 120px 0 80px;
   overflow: hidden;
 }
 
