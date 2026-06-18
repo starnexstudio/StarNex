@@ -3,30 +3,40 @@
    ========================================================== */
 
 /* ── Navbar scroll effect ── */
-const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
+  if (window.innerWidth > 900) {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  } else {
+    navbar.classList.remove('scrolled');
+  }
 }, { passive: true });
 
 /* ── Hamburger menu ── */
 const hamburger  = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 
-hamburger.addEventListener('click', () => {
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
   const open = mobileMenu.classList.toggle('open');
+
   hamburger.classList.toggle('active', open);
+  navbar.classList.toggle('menu-open', open);
+
   hamburger.setAttribute('aria-expanded', String(open));
   mobileMenu.setAttribute('aria-hidden', String(!open));
 });
 
-mobileMenu.querySelectorAll('.mobile-link').forEach(link => {
-  link.addEventListener('click', () => {
-    mobileMenu.classList.remove('open');
-    hamburger.classList.remove('active');
-    hamburger.setAttribute('aria-expanded', 'false');
-    mobileMenu.setAttribute('aria-hidden', 'true');
+  mobileMenu.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      navbar.classList.remove('menu-open');
+    });
   });
-});
+}
+
 
 /* ── Intersection Observer – scroll animations ── */
 const animated = document.querySelectorAll(
@@ -220,3 +230,30 @@ slider.addEventListener("mouseenter", () => paused = true);
 slider.addEventListener("mouseleave", () => paused = false);
 
 })();
+
+const slider = document.getElementById("clientsSlider");
+
+if (slider) {
+  let position = 0;
+  let speed = 0.7;
+  let paused = false;
+
+  function animateClients() {
+    if (!paused) {
+      position -= speed;
+
+      if (Math.abs(position) >= slider.scrollWidth / 2) {
+        position = 0;
+      }
+
+      slider.style.transform = `translateX(${position}px)`;
+    }
+
+    requestAnimationFrame(animateClients);
+  }
+
+  animateClients();
+
+  slider.addEventListener("mouseenter", () => paused = true);
+  slider.addEventListener("mouseleave", () => paused = false);
+}
