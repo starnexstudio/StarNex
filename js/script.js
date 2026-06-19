@@ -257,3 +257,169 @@ if (slider) {
   slider.addEventListener("mouseenter", () => paused = true);
   slider.addEventListener("mouseleave", () => paused = false);
 }
+
+/* =========================================================
+   DRAGGABLE LANGUAGE TOGGLE
+   ========================================================= */
+
+const languageToggle = document.getElementById("languageToggle");
+
+if (languageToggle) {
+  const track = languageToggle.querySelector(".language-toggle-track");
+  const thumb = languageToggle.querySelector(".language-toggle-thumb");
+  const options = [...languageToggle.querySelectorAll(".language-option")];
+
+  let isDragging = false;
+  let startX = 0;
+  let currentTranslate = 0;
+  let startTranslate = 0;
+
+  const getOptionWidth = () => {
+    return options[0].getBoundingClientRect().width;
+  };
+
+  const getCurrentIndex = () => {
+    return languageToggle.dataset.currentLanguage === "en" ? 1 : 0;
+  };
+
+  const setActiveState = (index) => {
+    options.forEach((option, optionIndex) => {
+      const active = optionIndex === index;
+
+      option.classList.toggle("active", active);
+      option.setAttribute("aria-pressed", String(active));
+    });
+  };
+
+  const updateTextColorDuringDrag = (progress) => {
+    const clampedProgress = Math.max(0, Math.min(1, progress));
+
+    if (clampedProgress < 0.5) {
+      setActiveState(0);
+    } else {
+      setActiveState(1);
+    }
+  };
+
+  const navigateToLanguage = (index) => {
+    const selectedOption = options[index];
+    const currentIndex = getCurrentIndex();
+
+    if (!selectedOption || index === currentIndex) {
+      languageToggle.classList.remove("switching");
+      return;
+    }
+
+    languageToggle.classList.add("switching");
+    languageToggle.dataset.currentLanguage =
+      selectedOption.dataset.language;
+
+    setActiveState(index);
+
+    /*
+      E lëmë animacionin të përfundojë para se të hapet faqja tjetër.
+      Kjo shmang ndjesinë e kalimit brutal.
+    */
+    window.setTimeout(() => {
+      window.location.href = selectedOption.dataset.url;
+    }, 420);
+  };
+
+  const snapToIndex = (index, navigate = true) => {
+    const optionWidth = getOptionWidth();
+
+    languageToggle.classList.remove("dragging");
+
+    thumb.style.transform = `translateX(${index * optionWidth}px)`;
+
+    setActiveState(index);
+
+    if (navigate) {
+      navigateToLanguage(index);
+    }
+  };
+
+  const handlePointerDown = (event) => {
+    if (languageToggle.classList.contains("switching")) return;
+
+    isDragging = true;
+    startX = event.clientX;
+
+    const optionWidth = getOptionWidth();
+    const currentIndex = getCurrentIndex();
+
+    startTranslate = currentIndex * optionWidth;
+    currentTranslate = startTranslate;
+
+    languageToggle.classList.add("dragging");
+
+    track.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event) => {
+    if (!isDragging) return;
+
+    const optionWidth = getOptionWidth();
+    const deltaX = event.clientX - startX;
+
+    currentTranslate = Math.max(
+      0,
+      Math.min(optionWidth, startTranslate + deltaX)
+    );
+
+    thumb.style.transform = `translateX(${currentTranslate}px)`;
+
+    updateTextColorDuringDrag(currentTranslate / optionWidth);
+  };
+
+  const handlePointerUp = (event) => {
+    if (!isDragging) return;
+
+    isDragging = false;
+
+    const optionWidth = getOptionWidth();
+    const targetIndex = currentTranslate >= optionWidth / 2 ? 1 : 0;
+
+    if (track.hasPointerCapture(event.pointerId)) {
+      track.releasePointerCapture(event.pointerId);
+    }
+
+    snapToIndex(targetIndex, true);
+  };
+
+  track.addEventListener("pointerdown", handlePointerDown);
+  track.addEventListener("pointermove", handlePointerMove);
+  track.addEventListener("pointerup", handlePointerUp);
+  track.addEventListener("pointercancel", handlePointerUp);
+
+  options.forEach((option, index) => {
+    option.addEventListener("click", (event) => {
+      /*
+        Parandalon click-un e dyfishtë pas drag-ut.
+      */
+      if (isDragging) {
+        event.preventDefault();
+        return;
+      }
+
+      snapToIndex(index, true);
+    });
+  });
+
+  /*
+    Vendos thumb-in saktë kur faqja ngarkohet
+    ose kur ndryshon madhësia e ekranit.
+  */
+  const positionThumb = () => {
+    const optionWidth = getOptionWidth();
+    const currentIndex = getCurrentIndex();
+
+    thumb.style.transform =
+      `translateX(${currentIndex * optionWidth}px)`;
+
+    setActiveState(currentIndex);
+  };
+
+  window.addEventListener("resize", positionThumb);
+  positionThumb();
+}
