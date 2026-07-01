@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "starnex",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3050"],
+      "port": 3050
+    }
+  ]
+}
