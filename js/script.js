@@ -262,83 +262,73 @@ if (yr) yr.textContent = new Date().getFullYear();
 
 
 /* ==========================================================
-   Contact form – validation + WhatsApp handoff
+   Contact form - validation + WhatsApp preview handoff
 
-   The site has no backend, so messages are delivered to StarNex's own
-   WhatsApp via CallMeBot (https://www.callmebot.com/blog/free-api-whatsapp-messages/) —
-   a free API that sends a WhatsApp message on your behalf when called
-   with your phone number + a personal apikey.
-
-   ONE-TIME SETUP (do this once, from the phone that should receive leads):
-     1. Save this contact in WhatsApp:  CallMeBot's number (get it from
-        the link above — it occasionally changes, so use their current page).
-     2. From that phone, send it the WhatsApp message: "I allow callmebot to send me messages"
-     3. CallMeBot replies with your personal "apikey" (a number).
-     4. Paste that number below as CALLMEBOT_APIKEY.
-
-   Until CALLMEBOT_APIKEY is filled in, the form falls back to opening a
-   wa.me link for the visitor (the old behavior) so it still works.
-   The form's native action="mailto:contact@starnexstudio.com" is a
-   fallback only for the rare case where JS fails to load/run — this
-   handler always preventDefault()s and takes over first.
+   The site has no backend. When the form is valid, it opens WhatsApp
+   with the message pre-filled so the visitor can review it and press Send.
    ========================================================== */
 (function () {
   'use strict';
 
-  const WHATSAPP_NUMBER   = '355682348060'; // same number used by the footer WhatsApp button — where leads are delivered
-  const CALLMEBOT_APIKEY  = 'PASTE_YOUR_CALLMEBOT_APIKEY_HERE';
+  const WHATSAPP_NUMBER = '355682348060';
 
   const form = document.getElementById('cf-form');
   if (!form) return;
 
   const submitBtn = form.querySelector('.cf-submit');
-  const success   = document.getElementById('cf-success');
-  const isEn      = document.documentElement.lang === 'en';
+  const success = document.getElementById('cf-success');
+  const isEn = document.documentElement.lang === 'en';
 
   const t = isEn ? {
-    fname:   'Please enter your full name.',
-    phone:   'Please enter a valid phone number.',
-    email:   'Please enter a valid email address.',
+    fname: 'Please enter your full name.',
+    phone: 'Please enter a valid phone number.',
+    email: 'Please enter a valid email address.',
     service: 'Please select a service.',
     message: 'Your message should be at least 20 characters.',
-    greeting: 'Hello StarNex! 👋',
-    name: 'Name', company: 'Company', phoneLabel: 'Phone', emailLabel: 'Email',
-    serviceLabel: 'Service', messageLabel: 'Message'
+    greeting: 'Hello StarNex!',
+    name: 'Name',
+    company: 'Company',
+    phoneLabel: 'Phone',
+    emailLabel: 'Email',
+    serviceLabel: 'Service',
+    messageLabel: 'Message'
   } : {
-    fname:   'Ju lutem shkruani emrin tuaj të plotë.',
-    phone:   'Numri i telefonit duhet të jetë i vlefshëm.',
-    email:   'Adresa e email-it duhet të jetë e vlefshme.',
-    service: 'Ju lutem zgjidhni një shërbim.',
-    message: 'Mesazhi duhet të ketë të paktën 20 karaktere.',
-    greeting: 'Përshëndetje StarNex! 👋',
-    name: 'Emri', company: 'Kompania', phoneLabel: 'Telefon', emailLabel: 'Email',
-    serviceLabel: 'Shërbimi', messageLabel: 'Mesazhi'
+    fname: 'Ju lutem shkruani emrin tuaj te plote.',
+    phone: 'Numri i telefonit duhet te jete i vlefshem.',
+    email: 'Adresa e email-it duhet te jete e vlefshme.',
+    service: 'Ju lutem zgjidhni nje sherbim.',
+    message: 'Mesazhi duhet te kete te pakten 20 karaktere.',
+    greeting: 'Pershendetje StarNex!',
+    name: 'Emri',
+    company: 'Kompania',
+    phoneLabel: 'Telefon',
+    emailLabel: 'Email',
+    serviceLabel: 'Sherbimi',
+    messageLabel: 'Mesazhi'
   };
 
-  /* ── Validators (phone is optional, so an empty value is valid) ── */
   const rules = {
-    'cf-fname':   { validate: v => v.trim().length >= 2, msg: t.fname },
-    'cf-phone':   { validate: v => v.trim() === '' || /^[+\d\s\-()]{7,20}$/.test(v.trim()), msg: t.phone },
-    'cf-email':   { validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()), msg: t.email },
+    'cf-fname': { validate: v => v.trim().length >= 2, msg: t.fname },
+    'cf-phone': { validate: v => v.trim() === '' || /^[+\d\s\-()]{7,20}$/.test(v.trim()), msg: t.phone },
+    'cf-email': { validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()), msg: t.email },
     'cf-service': { validate: v => v !== '', msg: t.service },
     'cf-message': { validate: v => v.trim().length >= 20, msg: t.message }
   };
 
   function showError(id, msg) {
-    const el    = document.getElementById(id + '-error');
+    const el = document.getElementById(id + '-error');
     const input = document.getElementById(id);
-    if (el)    el.textContent = msg;
+    if (el) el.textContent = msg;
     if (input) input.setAttribute('aria-invalid', 'true');
   }
 
   function clearError(id) {
-    const el    = document.getElementById(id + '-error');
+    const el = document.getElementById(id + '-error');
     const input = document.getElementById(id);
-    if (el)    el.textContent = '';
+    if (el) el.textContent = '';
     if (input) input.removeAttribute('aria-invalid');
   }
 
-  /* ── Live validation ── */
   Object.keys(rules).forEach(id => {
     const input = document.getElementById(id);
     if (!input) return;
@@ -349,9 +339,9 @@ if (yr) yr.textContent = new Date().getFullYear();
     input.addEventListener('input', () => clearError(id));
   });
 
-  /* ── Submit → WhatsApp ── */
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+
     let valid = true;
     let firstInvalid = null;
 
@@ -374,41 +364,26 @@ if (yr) yr.textContent = new Date().getFullYear();
 
     if (submitBtn) submitBtn.disabled = true;
 
-    /* Collect data */
-    const fullName    = document.getElementById('cf-fname').value.trim();
+    const fullName = document.getElementById('cf-fname').value.trim();
     const companyName = document.getElementById('cf-company').value.trim();
-    const phone       = document.getElementById('cf-phone').value.trim();
-    const email       = document.getElementById('cf-email').value.trim();
+    const phone = document.getElementById('cf-phone').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
     const serviceText = document.getElementById('cf-service').value;
-    const message      = document.getElementById('cf-message').value.trim();
+    const message = document.getElementById('cf-message').value.trim();
 
-    /* Build WhatsApp message */
     const company = companyName ? `\n${t.company}: ${companyName}` : '';
-    const waText  =
+    const waText =
       `${t.greeting}\n\n` +
       `${t.name}: ${fullName}${company}\n` +
-      `${t.phoneLabel}: ${phone || '—'}\n` +
+      `${t.phoneLabel}: ${phone || '-'}\n` +
       `${t.emailLabel}: ${email}\n` +
       `${t.serviceLabel}: ${serviceText}\n\n` +
       `${t.messageLabel}:\n${message}`;
 
-    const isConfigured = CALLMEBOT_APIKEY && CALLMEBOT_APIKEY.indexOf('PASTE_') !== 0;
+    const waURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+    window.open(waURL, '_blank', 'noopener,noreferrer');
 
-    form.hidden = true;
     if (success) success.hidden = false;
-
-    if (isConfigured) {
-      /* Delivered automatically — no action needed from the visitor. */
-      const cmbURL =
-        `https://api.callmebot.com/whatsapp.php?phone=${WHATSAPP_NUMBER}` +
-        `&text=${encodeURIComponent(waText)}&apikey=${CALLMEBOT_APIKEY}`;
-      fetch(cmbURL, { mode: 'no-cors' }).catch(() => {});
-    } else {
-      /* CallMeBot not set up yet — fall back to the visitor sending it themselves. */
-      const waURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
-      window.open(waURL, '_blank', 'noopener,noreferrer');
-    }
-
     if (submitBtn) submitBtn.disabled = false;
   });
 })();

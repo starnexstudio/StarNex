@@ -833,18 +833,13 @@ body { animation: pageFade .5s ease forwards; }
 /* ==========================================================
    FLOATING BUTTONS
    ========================================================== */
-.whatsapp-btn { position: fixed; bottom: 20px; right: 20px; z-index: 800; width: 52px; height: 52px; background: var(--whatsapp-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; box-shadow: 0 4px 20px rgba(37,211,102,.35); transition: transform var(--dur), box-shadow var(--dur); }
-.whatsapp-tooltip { position: absolute; right: 60px; background: var(--bg-white); border: 1px solid var(--border); color: var(--text-primary); font-size: .75rem; padding: 5px 10px; border-radius: var(--radius-sm); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity var(--dur); box-shadow: var(--shadow-card); }
 .back-to-top { position: fixed; bottom: 82px; right: 20px; z-index: 800; width: 40px; height: 40px; background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--text-secondary); cursor: pointer; box-shadow: var(--shadow-card); transition: color var(--dur), border-color var(--dur); }
 .back-to-top[hidden] { display: none; }
 @media (hover: hover) and (pointer: fine) {
-  .whatsapp-btn:hover { transform: scale(1.08); box-shadow: 0 8px 28px rgba(37,211,102,.45); }
-  .whatsapp-btn:hover .whatsapp-tooltip { opacity: 1; }
   .back-to-top:hover { color: var(--red); border-color: var(--red-muted-border); }
 }
 
 @media (min-width: 640px) {
-  .whatsapp-btn { width: 56px; height: 56px; bottom: 24px; right: 24px; }
   .back-to-top { bottom: 88px; right: 24px; }
 }
 
