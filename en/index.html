@@ -16,7 +16,7 @@
   />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="StarNex" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://api.callmebot.com; object-src 'none'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com 'sha256-z6QEbMMtlU28hNmG1YfYEM1Rpfk4g5zyPiu+3SBxj7A=' 'sha256-l2pZAFJQkgPtF5p0mte7dEpOMqZ85xxfG3Ssn5alvnM='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; media-src 'self'; connect-src 'self' https://api.callmebot.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none';" />
 
   <link rel="canonical" href="https://starnexstudio.com/en/" />
   <link rel="alternate" hreflang="sq" href="https://starnexstudio.com/" />
@@ -67,7 +67,7 @@
   <link rel="preload" as="image" href="../images/bg-hero-poster.jpg" fetchpriority="high" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="../css/style.min.css?v=20260701c" />
+  <link rel="stylesheet" href="../css/style.min.css?v=20260705e" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -189,6 +189,16 @@
     ]
   }
   </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1RVYRLNBYY"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1RVYRLNBYY');
+</script>
 </head>
 
 <body>
@@ -248,13 +258,10 @@
       </div>
     </section>
 
-    <!-- LOGO STRIP -->
-
-
     <!-- INDUSTRY TRUST RIBBON — text only -->
-    <div class="tr-ribbon" aria-label="Industries we serve">
+    <div class="tr-ribbon reveal" aria-label="Industries we serve">
       <div class="tr-track">
-        <!-- ─── Set 1 ─── -->
+        <!-- --- Set 1 --- -->
         <span class="tr-pill">Automotive</span><span class="tr-dot" aria-hidden="true"></span>
         <span class="tr-pill">Cleaning</span><span class="tr-dot" aria-hidden="true"></span>
         <span class="tr-pill">Real Estate</span><span class="tr-dot" aria-hidden="true"></span>
@@ -275,7 +282,7 @@
         <span class="tr-pill">CMS</span><span class="tr-dot" aria-hidden="true"></span>
         <span class="tr-pill tr-accent">SEO</span><span class="tr-dot" aria-hidden="true"></span>
         <span class="tr-pill">Business Automation</span><span class="tr-dot" aria-hidden="true"></span>
-        <!-- ─── Set 2 (seamless loop) ─── -->
+        <!-- --- Set 2 (seamless loop) --- -->
         <span class="tr-pill" aria-hidden="true">Automotive</span><span class="tr-dot" aria-hidden="true"></span>
         <span class="tr-pill" aria-hidden="true">Cleaning</span><span class="tr-dot" aria-hidden="true"></span>
         <span class="tr-pill" aria-hidden="true">Real Estate</span><span class="tr-dot" aria-hidden="true"></span>
@@ -299,9 +306,22 @@
       </div>
     </div>
 
+
     <!-- DARK SPLIT BAND -->
     <section class="dark-split-band" id="about" aria-label="Who we are - StarNex Studio">
       <div class="dark-split-inner">
+        <div class="dark-split-content">
+          <div class="section-badge">Who we are</div>
+          <h2>Website development shaped by strategy, design and clean code.</h2>
+          <p>We build business websites in Tirana and Albania for companies that need a clear, fast and credible digital presence. Every page begins with the message, structure and action it needs to support.</p>
+          <ul class="alt-list">
+            <li>Strategy before design, so every section has a defined role.</li>
+            <li>Website design that builds trust without overloading the experience.</li>
+            <li>Responsive, SEO-ready code built for long-term maintenance.</li>
+            <li>Clear communication before, during and after launch.</li>
+          </ul>
+        </div>
+
         <div class="dark-split-image about-code-visual" id="aboutCodeVisual">
           <!-- Orbit + dot decoration (clipped layer, kept separate so floating cards aren't cut off) -->
           <div class="about-code-bg" aria-hidden="true">
@@ -370,21 +390,12 @@
 
           </div>
         </div>
-        <div class="dark-split-content">
-          <div class="section-badge">Who we are</div>
-          <h2>Website development shaped by strategy, design and clean code.</h2>
-          <p>We build business websites in Tirana and Albania for companies that need a clear, fast and credible digital presence. Every page begins with the message, structure and action it needs to support.</p>
-          <ul class="alt-list">
-            <li>Strategy before design, so every section has a defined role.</li>
-            <li>Website design that builds trust without overloading the experience.</li>
-            <li>Responsive, SEO-ready code built for long-term maintenance.</li>
-            <li>Clear communication before, during and after launch.</li>
-          </ul>
-          <div style="display:flex;gap:14px;flex-wrap:wrap;">
-            <a href="#contact" class="btn btn-primary">Discuss your project</a>
-            <a href="#process" class="btn btn-dark-ghost">See the process</a>
-          </div>
+
+        <div class="about-actions">
+          <a href="#contact" class="btn btn-primary">Discuss your project</a>
+          <a href="#process" class="btn btn-dark-ghost">See the process</a>
         </div>
+
       </div>
     </section>
 
@@ -516,7 +527,7 @@
                 <span>No monthly fees</span>
               </div>
             </div>
-            <div class="pricing-trust-msg">⭐ Chosen by most of our clients.</div>
+            <div class="pricing-trust-msg">? Chosen by most of our clients.</div>
             <p>A complete website that generates leads, ranks on Google and builds lasting credibility.</p>
             <ul>
               <li>Everything in Starter</li>
@@ -581,7 +592,7 @@
       <!-- Conveyor -->
       <div class="projects-conveyor" id="projectsConveyor">
 
-        <!-- Row 1 → left -->
+        <!-- Row 1 ? left -->
         <div class="conveyor-row">
           <div class="conveyor-track" data-direction="left">
             <a class="conveyor-item" href="#" aria-label="Grand Realty"><img src="../images/projects/grand-realty.png" alt="Grand Realty" loading="lazy" decoding="async" /></a>
@@ -604,7 +615,7 @@
           </div>
         </div>
 
-        <!-- Row 2 → right -->
+        <!-- Row 2 ? right -->
         <div class="conveyor-row">
           <div class="conveyor-track" data-direction="right">
             <a class="conveyor-item" href="#" aria-label="SOMA Dental Care"><img src="../images/projects/dental.png" alt="SOMA Dental Care" loading="lazy" decoding="async" /></a>
@@ -719,7 +730,7 @@
         </div>
         <div class="testimonial-grid" data-stagger="0.10">
           <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
+            <div class="testimonial-stars">?????</div>
             <p class="testimonial-text">"The new website showcases our work so much better than before. Clients now find us and contact us directly."</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar">AG</div>
@@ -727,7 +738,7 @@
             </div>
           </div>
           <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
+            <div class="testimonial-stars">?????</div>
             <p class="testimonial-text">"They worked with great attention to detail. The page looks premium and helps us appear serious in front of new clients."</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar">EL</div>
@@ -735,7 +746,7 @@
             </div>
           </div>
           <div class="testimonial-card">
-            <div class="testimonial-stars">★★★★★</div>
+            <div class="testimonial-stars">?????</div>
             <p class="testimonial-text">"Our real estate project now has the digital presence it deserves. The clear structure and elegant design have noticeably increased enquiries."</p>
             <div class="testimonial-author">
               <div class="testimonial-avatar">MK</div>
@@ -983,6 +994,20 @@
           <span class="logo-text">Star<span class="logo-accent">Nex</span></span>
         </a>
         <p class="footer-tagline">Website development studio in Tirana, Albania. We build custom websites, SEO-ready structures and digital systems for serious businesses.</p>
+        <div class="footer-social" aria-label="Follow us on social media">
+          <a href="https://www.facebook.com/share/1cLdDAwxTZ/?mibextid=wwXIfr" class="footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/starnex_studio" class="footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/starnex-studio" class="footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@starnex_studio" class="footer-social-link" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        </div>
       </div>
 
       <nav class="footer-nav" aria-label="Navigation">
