@@ -517,59 +517,100 @@ body { animation: pageFade .5s ease forwards; }
   position: relative; overflow: hidden; padding: var(--section-y) 0;
   background: var(--surface-glow);
 }
-.pricing-head { margin-bottom: var(--header-gap); }
-.pricing-head .section-heading { max-width: 760px; margin: 0; }
-.pricing-head p { max-width: 420px; color: var(--text-secondary); font-size: .88rem; line-height: 1.72; margin-top: 12px; }
-.pricing-composition { display: flex; flex-direction: column; align-items: stretch; gap: var(--gap-lg); }
+/* Centered header: badge, heading and paragraph read as one block,
+   matching the centered headers used elsewhere on the site */
+.pricing-head { max-width: 680px; margin: 0 auto var(--header-gap); text-align: center; }
+.pricing-head .section-heading { margin: 0 auto; }
+.pricing-head p { max-width: 520px; margin: 12px auto 0; color: var(--text-secondary); font-size: .9rem; line-height: 1.72; }
+
+/* Stacked baseline: featured (Standard) first, cards capped so tablets
+   don't stretch them edge-to-edge */
+.pricing-composition { display: flex; flex-direction: column; align-items: stretch; gap: calc(var(--gap-lg) + 8px); width: 100%; max-width: 560px; margin: 0 auto; }
 .pricing-tier {
-  position: relative; overflow: hidden; padding: clamp(18px, 4vw, 22px);
-  border: 1px solid var(--border); border-radius: 22px;
-  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(247,247,248,.70));
+  position: relative; display: flex; flex-direction: column; padding: clamp(22px, 5vw, 28px);
+  border: 1px solid var(--border-medium); border-radius: var(--radius-card);
+  background: var(--bg-white);
   box-shadow: var(--shadow-card);
   /* transform is owned by js/script.js's rAF hover lerp — no CSS transition/hover on transform here */
   transition: border-color 300ms var(--ease), box-shadow 300ms var(--ease);
 }
-.pricing-tier.featured { border-color: rgba(200,21,42,.22); box-shadow: var(--shadow-card-hover); z-index: 2; }
-.pricing-badge { display: flex; align-items: center; justify-content: center; width: fit-content; margin: 0 auto 16px; padding: 5px 14px; border: 1px solid rgba(200,21,42,.36); border-radius: var(--radius-pill); background: var(--red); color: #fff; font-size: .67rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; box-shadow: 0 4px 16px rgba(200,21,42,.32); }
-.pricing-tier-top { margin-bottom: 14px; }
-.pricing-kicker { display: block; margin-bottom: 10px; color: var(--red); font-size: .7rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
-.pricing-tier-top strong { color: var(--heading-primary); font-family: var(--font-display); font-size: clamp(2.1rem, 6vw, 2.5rem); line-height: .95; letter-spacing: -.03em; }
-.pricing-trust-msg { margin-bottom: 14px; font-size: .76rem; color: var(--text-secondary); opacity: .8; }
-.pricing-tier.featured .pricing-trust-msg { color: var(--red); opacity: 1; font-weight: 600; }
-.pricing-tier > p { min-height: 0; margin-bottom: 16px; color: var(--text-secondary); font-size: .84rem; line-height: 1.6; }
-.pricing-tier ul { display: grid; gap: 8px; margin: 0 0 20px; }
-.pricing-tier li { position: relative; padding-left: 20px; color: var(--text-secondary); font-size: .8rem; line-height: 1.48; }
-.pricing-tier li::before { content: ''; position: absolute; left: 0; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 4px rgba(200,21,42,.08); }
+.pricing-tier.featured { order: -1; border-color: rgba(200,21,42,.34); box-shadow: 0 24px 64px rgba(17,17,19,.12), 0 10px 28px rgba(200,21,42,.10), inset 0 1px 0 rgba(255,255,255,.92); z-index: 2; }
+@media (hover: hover) and (pointer: fine) {
+  .pricing-tier:hover { border-color: var(--border-medium); box-shadow: var(--shadow-card-hover); }
+  .pricing-tier.featured:hover { border-color: rgba(200,21,42,.46); box-shadow: 0 28px 72px rgba(17,17,19,.14), 0 12px 32px rgba(200,21,42,.13), inset 0 1px 0 rgba(255,255,255,.92); }
+}
+.pricing-badge {
+  position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%);
+  padding: 6px 16px; border-radius: var(--radius-pill); white-space: nowrap;
+  background: var(--red); color: #fff; font-size: .65rem; font-weight: 800;
+  letter-spacing: .13em; text-transform: uppercase;
+  box-shadow: 0 6px 18px rgba(200,21,42,.30);
+}
+
+/* Card head: name → "starting from" → price → payment metadata */
+.pricing-tier-top { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.pricing-kicker { display: block; margin-bottom: 14px; color: var(--red); font-size: .72rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.pricing-from { display: block; margin-bottom: 4px; color: var(--text-muted); font-size: .72rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+.pricing-price { display: block; color: var(--heading-primary); font-family: var(--font-display); font-size: clamp(2.3rem, 7vw, 2.9rem); font-weight: 600; line-height: 1; letter-spacing: -.02em; }
+
+.pricing-trust-msg { margin-bottom: 10px; font-size: .78rem; font-weight: 600; line-height: 1.5; color: var(--text-primary); }
+.pricing-tier.featured .pricing-trust-msg { color: var(--red); }
+.pricing-tier > p { min-height: 0; margin-bottom: 18px; color: var(--text-secondary); font-size: .84rem; line-height: 1.6; }
+
+/* Feature list: SVG check in a soft red disc via mask, colored by --red */
+.pricing-tier ul { display: grid; gap: 10px; margin: 0 0 24px; }
+.pricing-tier li { position: relative; padding-left: 26px; color: var(--text-secondary); font-size: .8rem; line-height: 1.5; }
+.pricing-tier li::before { content: ''; position: absolute; left: 0; top: .14em; width: 16px; height: 16px; border-radius: 50%; background: var(--red-muted); box-shadow: inset 0 0 0 1px var(--red-muted-border); }
+.pricing-tier li::after {
+  content: ''; position: absolute; left: 4px; top: calc(.14em + 4px); width: 8px; height: 8px;
+  background: var(--red);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 13l5.5 5.5L20.5 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 13l5.5 5.5L20.5 6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 .pricing-tier.featured li.hi { color: var(--heading-primary); font-weight: 600; }
-.pricing-tier.featured li.hi::before { width: 7px; height: 7px; background: var(--red); box-shadow: 0 0 0 5px rgba(200,21,42,.13); }
-.pricing-meta { display: flex; align-items: center; gap: 14px; margin: 10px 0 0; flex-wrap: wrap; }
-.pricing-meta span { display: flex; align-items: center; gap: 5px; color: var(--text-secondary); font-size: .74rem; opacity: .82; }
-.pricing-meta span::before { content: '\2713'; color: var(--red); font-weight: 700; font-size: .78rem; line-height: 1; }
+.pricing-tier.featured li.hi::before { background: rgba(200,21,42,.12); box-shadow: inset 0 0 0 1px rgba(200,21,42,.30); }
+
+/* CTA pinned to card bottom so all three stay aligned */
 .pricing-cta {
-  display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 44px;
-  padding: 12px 18px; border: 1px solid rgba(200,21,42,.82); border-radius: 12px;
-  background: linear-gradient(135deg, var(--red), #A8101E); color: #fff; font-size: .8rem; font-weight: 800; letter-spacing: .01em;
-  box-shadow: 0 14px 32px rgba(200,21,42,.18);
+  display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 46px;
+  margin-top: auto; padding: 12px 18px; border: 1px solid var(--red); border-radius: 12px;
+  background: var(--red); color: #fff; font-size: .8rem; font-weight: 700; letter-spacing: .01em;
+  box-shadow: 0 12px 28px rgba(200,21,42,.18);
   transition: transform 280ms var(--ease), box-shadow 280ms var(--ease), background 280ms var(--ease), border-color 280ms var(--ease), color 280ms var(--ease);
 }
 .pricing-tier:not(.featured) .pricing-cta { background: transparent; border-color: rgba(200,21,42,.45); color: var(--red); box-shadow: none; }
 .pricing-tier.featured .pricing-cta { min-height: 48px; font-size: .84rem; }
 @media (hover: hover) and (pointer: fine) {
-  .pricing-cta:hover { transform: translateY(-2px); background: linear-gradient(135deg, #B51225, #8F0D1A); box-shadow: 0 18px 42px rgba(200,21,42,.24); }
+  .pricing-cta:hover { transform: translateY(-2px); background: var(--red-hover); border-color: var(--red-hover); box-shadow: 0 16px 36px rgba(200,21,42,.24); }
   .pricing-tier:not(.featured) .pricing-cta:hover { background: rgba(200,21,42,.05); border-color: rgba(200,21,42,.65); color: var(--red); box-shadow: none; transform: translateY(-1px); }
 }
-.pricing-note { max-width: 760px; margin: 20px auto 0; color: rgba(84,86,90,.78); font-size: .78rem; line-height: 1.6; text-align: center; }
 
-@media (min-width: 640px) { .pricing-tier > p { min-height: 56px; } }
+/* Fine-print note below the cards */
+.pricing-note {
+  display: flex; align-items: flex-start; gap: 12px;
+  max-width: 820px; margin: clamp(26px, 4vw, 38px) auto 0; padding: 14px 18px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: rgba(255,255,255,.72);
+  color: var(--text-secondary); font-size: .76rem; line-height: 1.65;
+}
+.pricing-note svg { flex-shrink: 0; width: 16px; height: 16px; margin-top: 2px; color: var(--red); opacity: .85; }
+.pricing-note p { margin: 0; }
+.pricing-note strong { color: var(--text-primary); font-weight: 600; }
+
+@media (min-width: 640px) {
+  .pricing-tier > p { min-height: 56px; }
+  .pricing-trust-msg { min-height: 2.4em; }
+}
 
 /* Stacks below exactly 900px to match js/script.js stackedPricing() */
 @media (min-width: 901px) {
-  .pricing-composition { flex-direction: row; align-items: flex-start; justify-content: center; gap: 20px; }
-  .pricing-tier { flex: 1 1 0; min-width: 0; padding: 22px; }
-  .pricing-tier.featured { flex: 1.15 1 0; }
-  .pricing-head { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 36px; }
-  .pricing-head p { margin-top: 0; }
-  .pricing-tier-top strong { font-size: clamp(1.9rem, 3vw, 2.5rem); }
+  .pricing-composition { flex-direction: row; align-items: stretch; justify-content: center; gap: 22px; max-width: none; }
+  .pricing-composition { max-width: 1180px; margin: 0 auto; }
+  .pricing-tier { flex: 1 1 0; min-width: 0; padding: 28px 26px 26px; }
+  .pricing-tier.featured { flex: 1.1 1 0; order: 0; }
+  /* extra clearance for the lifted featured card + its floating badge */
+  .pricing-head { margin-bottom: 60px; }
+  .pricing-price { font-size: clamp(2.2rem, 3vw, 2.8rem); }
 }
 
 /* ==========================================================
